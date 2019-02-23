@@ -19,16 +19,25 @@ export default {
 
   data() {
     return {
-
       listing_one: [],
       listing_two: 'This is second listing',
     };
   },
   methods: {
     getRawData() {
-      const URL = 'http://getspaceapp.heroku.com/';
-      fetch(URL).then(data => data.json()).then((res) => { print(res); });
-      // this.listing_one = ['kokot', 'pica'];
+      const URL = 'https://getspaceapp.herokuapp.com/';
+      async function asyncFetch(url) {
+        const response = await fetch(url, {
+          method: 'GET',
+          mode: 'no-cors',
+          headers: {
+            'content-Type': 'application/json',
+          },
+        });
+        if (response.ok) return response.json();
+        throw new Error(response.error);
+      }
+      this.listing_one.push(asyncFetch(URL));
     },
   },
 };
